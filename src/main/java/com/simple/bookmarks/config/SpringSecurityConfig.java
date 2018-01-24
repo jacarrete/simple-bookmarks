@@ -37,29 +37,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf()
-//                    .requireCsrfProtectionMatcher(new AntPathRequestMatcher("**/login"))
-//                    .and()
-//                .authorizeRequests()
-//                    .antMatchers("/dashboard")
-//                    .hasRole("USER")
-//                    .and()
-//                .formLogin()
-//                    .defaultSuccessUrl("/dashboard")
-//                    .loginPage("/login")
-//                    .and()
-//                .logout().permitAll();
-
         http
                 .authorizeRequests()
                     .antMatchers("/login**").permitAll()
-                    .antMatchers("/dashboard").fullyAuthenticated()
+                    .antMatchers("/getAllCustomers").fullyAuthenticated()
                     //.antMatchers("/profile/**").fullyAuthenticated()
                     //.antMatchers("/").permitAll()
                     .and()
                 .formLogin()
                     .loginPage("/login")
-                    .defaultSuccessUrl("/dashboard")
+                    .defaultSuccessUrl("/getAllCustomers")
                     //.failureUrl("/login?error")
                     //.permitAll()
                     .and()
@@ -68,11 +55,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .deleteCookies("JSESSIONID")
                     .permitAll();
     }
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("javier").password("password").roles("USER");
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

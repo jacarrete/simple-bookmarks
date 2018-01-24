@@ -1,6 +1,9 @@
 package com.simple.bookmarks.controller;
 
+import com.simple.bookmarks.model.Customer;
 import com.simple.bookmarks.model.User;
+import com.simple.bookmarks.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +17,9 @@ import java.util.List;
 @Controller
 public class DashboardController {
 
+	@Autowired
+	private CustomerService customerService;
+
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public ModelAndView dashboard() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -21,6 +27,9 @@ public class DashboardController {
 		ModelAndView model = new ModelAndView();
     	model.addObject("users", getUsers());
 		model.addObject("username", name);
+		List<Customer> listOfCustomers = customerService.getAllCustomers();
+		model.addObject("customer", new Customer());
+		model.addObject("listOfCustomers", listOfCustomers);
 		model.setViewName("dashboard");
     	return model;
     }
