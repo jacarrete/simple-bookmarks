@@ -29,10 +29,10 @@ public class CustomerController {
         return "customerDetails";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, headers = "Accept=application/json")
-    public String goToHomePage() {
-        return "redirect:/getAllCustomers";
-    }
+//    @RequestMapping(value = "/", method = RequestMethod.GET, headers = "Accept=application/json")
+//    public String goToHomePage() {
+//        return "redirect:/getAllCustomers";
+//    }
 
     @RequestMapping(value = "/getCustomer/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     public Customer getCustomerById(@PathVariable int id) {
@@ -49,8 +49,6 @@ public class CustomerController {
         {
             customerService.updateCustomer(customer);
         }
-
-        //return "redirect:/getAllCustomers";
         return "redirect:/getAllCustomers";
     }
 
