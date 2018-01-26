@@ -10,6 +10,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 <head>
+    <title>Simple BookMarks</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
         .rectangle{
             width: 90px;
@@ -36,9 +42,9 @@
             border:1px solid #1A87B9
         }
         table {
+            margin-left: 10px;
             font-family: "Helvetica Neue", Helvetica, sans-serif;
             width: 50%;
-            margin-top: 100px;
         }
         th {
             background: SteelBlue;
@@ -51,79 +57,58 @@
             padding: 5px 10px;
         }
     </style>
+
+    <script language="JavaScript" type="text/javascript">
+        function logout ( ) {
+            document.logoutForm.submit() ;
+        }
+    </script>
+    <script language="JavaScript" type="text/javascript">
+        function donate ( ) {
+            document.donate.submit() ;
+        }
+    </script>
 </head>
 <body>
-<div>
-    <h2>Welcome: ${username}</h2>
-    <form action="/logout" method="post">
-        <button type="submit" class="btn btn-danger">Log Out</button>
-        <input type="hidden" name="${_csrf.parameterName}"
-               value="${_csrf.token}"/>
-    </form>
-</div>
 
-<h3>Bookmarks List</h3>
-<c:if test="${!empty listOfBookmarks}">
-    <c:forEach items="${listOfBookmarks}" var="bookmark">
-        <c:choose>
-            <c:when test="${!empty bookmark.imageName}">
-                <a href="${bookmark.address}" target="_blank"><img src="/images/${bookmark.imageName}" class="rectangle" /></a>
-            </c:when>
-            <c:when test="${!empty bookmark.color && bookmark.showText}">
-                <a href="${bookmark.address}" target="_blank" class="rectangle" style="background-color:${bookmark.color};" >${bookmark.initials}</a>
-            </c:when>
-            <c:when test="${!empty bookmark.color && !bookmark.showText}">
-                <a href="${bookmark.address}" target="_blank" class="rectangle" style="background-color:${bookmark.color};" ></a>
-            </c:when>
-            <c:otherwise>
-                <a href="${bookmark.address}" target="_blank" class="rectangle"></a>
-            </c:otherwise>
-        </c:choose>
-    </c:forEach>
-    </br></br>
-    <table class="tg">
-        <tr>
-            <th width="80">Id</th>
-            <th width="120">Bookmark Name</th>
-            <th width="120">Address</th>
-            <th width="120">Initials</th>
-            <th width="120">Show Initials</th>
-            <th width="120">Color</th>
-            <th width="120">Image Name</th>
-            <th width="60">Edit</th>
-            <th width="60">Delete</th>
-            <th width="120"></th>
-        </tr>
-        <c:forEach items="${listOfBookmarks}" var="bookmark">
-            <tr>
-                <td>${bookmark.id}</td>
-                <td>${bookmark.name}</td>
-                <td><a href='${bookmark.address}' target="_blank">${bookmark.address}</a></td>
-                <td>${bookmark.initials}</td>
-                <td>${bookmark.showText}</td>
-                <td>${bookmark.color}</td>
-                <td>${bookmark.imageName}</td>
-                <td><a href="<c:url value='/updateBookmark/${bookmark.id}' />" >Edit</a></td>
-                <td><a href="<c:url value='/deleteBookmark/${bookmark.id}' />" >Delete</a></td>
-                <td><c:choose>
-                    <c:when test="${!empty bookmark.imageName}">
-                        <a href="${bookmark.address}" target="_blank"><img src="/images/${bookmark.imageName}" class="rectangle" /></a>
-                    </c:when>
-                    <c:when test="${!empty bookmark.color && bookmark.showText}">
-                        <a href="${bookmark.address}" target="_blank" class="rectangle" style="background-color:${bookmark.color};" >${bookmark.initials}</a>
-                    </c:when>
-                    <c:when test="${!empty bookmark.color && !bookmark.showText}">
-                        <a href="${bookmark.address}" target="_blank" class="rectangle" style="background-color:${bookmark.color};" ></a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${bookmark.address}" target="_blank" class="rectangle"></a>
-                    </c:otherwise>
-                </c:choose></td>
-            </tr>
-        </c:forEach>
-    </table>
-</c:if>
-</br></br>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/bookmarkList">Simple BookMarks</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/bookmarkList">Home</a></li>
+            <li class="active"><a href="getAllBookmarks">Manage Bookmarks</a></li>
+            <li><a href="javascript:donate()">Donate</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
+            <li><a href="javascript:logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<form name="logoutForm" action="/logout" method="post">
+    <input type="hidden" name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
+</form>
+<form name="donate" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+    <!-- Identify your business so that you can collect the payments. -->
+    <input type="hidden" name="business"
+           value="javi_1986@hotmail.com">
+    <!-- Specify a Donate button. -->
+    <input type="hidden" name="cmd" value="_donations">
+    <!-- Specify details about the contribution -->
+    <input type="hidden" name="item_name" value="Simple BookMarks Web">
+    <input type="hidden" name="item_number" value="Donation">
+    <input type="hidden" name="amount" value="25.00">
+    <input type="hidden" name="currency_code" value="GBP">
+    <!-- Display the payment button. -->
+    <%--<input type="image" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate">--%>
+    <img alt="" width="1" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
+</form>
+
 <form:form method="post" modelAttribute="bookmark" action="${pageContext.request.contextPath}/addBookmark" enctype="multipart/form-data">
     <table>
         <tr>
@@ -171,5 +156,50 @@
         </tr>
     </table>
 </form:form>
+<h3 style="margin-left: 10px">Bookmarks List</h3>
+<c:if test="${!empty listOfBookmarks}">
+    <table class="tg">
+        <tr>
+            <th width="80">Id</th>
+            <th width="120">Bookmark Name</th>
+            <th width="120">Address</th>
+            <th width="120">Initials</th>
+            <th width="120">Show Initials</th>
+            <th width="120">Color</th>
+            <th width="120">Image Name</th>
+            <th width="60">Edit</th>
+            <th width="60">Delete</th>
+            <th width="120"></th>
+        </tr>
+        <c:forEach items="${listOfBookmarks}" var="bookmark">
+            <tr>
+                <td>${bookmark.id}</td>
+                <td>${bookmark.name}</td>
+                <td><a href='${bookmark.address}' target="_blank">${bookmark.address}</a></td>
+                <td>${bookmark.initials}</td>
+                <td>${bookmark.showText}</td>
+                <td>${bookmark.color}</td>
+                <td>${bookmark.imageName}</td>
+                <td><a href="<c:url value='/updateBookmark/${bookmark.id}' />" >Edit</a></td>
+                <td><a href="<c:url value='/deleteBookmark/${bookmark.id}' />" >Delete</a></td>
+                <td><c:choose>
+                    <c:when test="${!empty bookmark.imageName}">
+                        <a href="${bookmark.address}" target="_blank"><img src="/images/${bookmark.imageName}" class="rectangle" /></a>
+                    </c:when>
+                    <c:when test="${!empty bookmark.color && bookmark.showText}">
+                        <a href="${bookmark.address}" target="_blank" class="rectangle" style="background-color:${bookmark.color};" >${bookmark.initials}</a>
+                    </c:when>
+                    <c:when test="${!empty bookmark.color && !bookmark.showText}">
+                        <a href="${bookmark.address}" target="_blank" class="rectangle" style="background-color:${bookmark.color};" ></a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${bookmark.address}" target="_blank" class="rectangle"></a>
+                    </c:otherwise>
+                </c:choose></td>
+            </tr>
+        </c:forEach>
+    </table>
+</c:if>
+
 </body>
 </html>

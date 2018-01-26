@@ -35,9 +35,17 @@ public class BookmarkController {
         return "bookmarkDetails";
     }
 
+    @RequestMapping(value = "/bookmarkList", method = RequestMethod.GET, headers = "Accept=application/json")
+    public String bookmarkList(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
+        model.addAttribute("username", username);
+        return "bookmarkList";
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET, headers = "Accept=application/json")
     public String goToHomePage() {
-        return "redirect:/getAllBookmarks";
+        return "redirect:/bookmarkList";
     }
 
     @RequestMapping(value = "/getBookmark/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
