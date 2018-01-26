@@ -1,7 +1,10 @@
 package com.simple.bookmarks.controller;
 
+import com.simple.bookmarks.SimplebookmarksApplication;
 import com.simple.bookmarks.model.Bookmark;
 import com.simple.bookmarks.service.BookmarkService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,8 @@ import java.io.IOException;
 @Controller
 public class BookmarkController {
 
+    private static final Logger log = LoggerFactory.getLogger(SimplebookmarksApplication.class);
+
     @Autowired
     private BookmarkService bookmarkService;
 
@@ -38,6 +43,7 @@ public class BookmarkController {
     @RequestMapping(value = "/bookmarkList", method = RequestMethod.GET, headers = "Accept=application/json")
     public String bookmarkList(Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        log.info("Username: {}", username);
         model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
         model.addAttribute("username", username);
         return "bookmarkList";

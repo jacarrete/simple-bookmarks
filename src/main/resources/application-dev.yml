@@ -1,0 +1,30 @@
+
+####### SPRING MVC ##############
+spring.mvc.view.prefix: /ui/jsp/
+spring.mvc.view.suffix: .jsp
+
+####### GENERAL ##############
+server.port: 8081
+
+####### LDAP ##############
+ldap.enabled: true
+ldap.urls: ldap://localhost:10389/
+ldap.base.dn: dc=example,dc=com
+ldap.username: uid=admin,ou=system
+ldap.password: secret
+ldap.user.search.base: ou=Users
+ldap.user.search.filter: cn={0}
+
+# Database
+db.driver: com.mysql.jdbc.Driver
+db.url: jdbc:mysql://localhost:3306/test
+db.username: root
+db.password: root
+
+# Hibernate
+hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+hibernate.show_sql: true
+hibernate.hbm2ddl.auto: update
+entitymanager.packagesToScan: com.simple.bookmarks
+
+spring.jpa.properties.hibernate.enable_lazy_load_no_trans: true
