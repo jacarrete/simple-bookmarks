@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by jcarretero on 23/01/2018.
@@ -88,6 +90,12 @@ public class BookmarkController {
     public String deleteBookmark(@PathVariable("id") int id) {
         bookmarkService.deleteBookmark(id);
         return "redirect:/getAllBookmarks";
+    }
+
+    @RequestMapping(value = "/restBookmarks", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public List<Bookmark> restBookmarks() {
+        return bookmarkService.getAllBookmarks();
     }
 
     private void transferMultipartFile(HttpServletRequest servletRequest) {

@@ -5,6 +5,7 @@ spring.mvc.view.suffix: .jsp
 
 ####### GENERAL ##############
 server.port: 8081
+management.port: 9001
 
 ####### LDAP ##############
 ldap.enabled: true
