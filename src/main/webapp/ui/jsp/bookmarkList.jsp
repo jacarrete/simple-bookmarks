@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.bookmarks/donateTagLib" prefix="donate" %>
 <html>
 <head>
     <title>Simple BookMarks</title>
@@ -77,21 +78,8 @@
     <input type="hidden" name="${_csrf.parameterName}"
            value="${_csrf.token}"/>
 </form>
-<form name="donate" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-    <!-- Identify your business so that you can collect the payments. -->
-    <input type="hidden" name="business"
-           value="javi_1986@hotmail.com">
-    <!-- Specify a Donate button. -->
-    <input type="hidden" name="cmd" value="_donations">
-    <!-- Specify details about the contribution -->
-    <input type="hidden" name="item_name" value="Simple BookMarks Web">
-    <input type="hidden" name="item_number" value="Donation">
-    <input type="hidden" name="amount" value="25.00">
-    <input type="hidden" name="currency_code" value="GBP">
-    <!-- Display the payment button. -->
-    <%--<input type="image" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate">--%>
-    <img alt="" width="1" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
-</form>
+
+<donate:donate/>
 
 <h3 style="margin-left: 10px"><spring:message code="bookmarks"/></h3>
 <c:if test="${!empty listOfBookmarks}">
