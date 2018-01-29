@@ -17,20 +17,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        .rectangle{
-            width: 90px;
-            height: 90px;
-            border: 2px solid purple;
-            display: block;
-            float: left;
-            margin-left: 20px;
-            margin-right: 20px;
-            text-align: center;
-            background-color: white;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link href="bookmarks.css" rel="stylesheet">
 
     <script language="JavaScript" type="text/javascript">
         function logout ( ) {
