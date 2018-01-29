@@ -103,7 +103,7 @@ public class BookmarkController {
         return "redirect:/getAllBookmarks";
     }
 
-    @RequestMapping(value = "/restBookmarks", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/restBookmarks", method = RequestMethod.GET, produces={"application/json", "application/xml"})
     @ResponseBody
     public List<Bookmark> restBookmarks() {
         return bookmarkService.getAllBookmarks();

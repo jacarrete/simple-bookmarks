@@ -77,7 +77,7 @@ public class RestBookmarksTest {
     public void shouldReturn200WhenSendingRequestToController() throws Exception {
         List<Bookmark> bookmarkList = getBookmarkList();
         when(bookmarkService.getAllBookmarks()).thenReturn(bookmarkList);
-        mockMvc.perform(get("/restBookmarks"))
+        mockMvc.perform(get("/restBookmarks.json"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$", hasSize(2)))

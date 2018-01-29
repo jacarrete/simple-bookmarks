@@ -43,7 +43,8 @@
             <li><a href="javascript:donate()"><spring:message code="donate"/></a></li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Rest APIS <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/restBookmarks"><spring:message code="bookmarks.list"/></a></li>
+                    <li><a href="/restBookmarks.json"><spring:message code="bookmarks.list.json"/></a></li>
+                    <li><a href="/restBookmarks.xml"><spring:message code="bookmarks.list.xml"/></a></li>
                 </ul>
             </li>
         </ul>
