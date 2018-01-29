@@ -77,19 +77,25 @@
             <a class="navbar-brand" href="/bookmarkList">Simple BookMarks</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="/bookmarkList">Home</a></li>
-            <li class="active"><a href="getAllBookmarks">Manage Bookmarks</a></li>
-            <li><a href="javascript:donate()">Donate</a></li>
+            <li><a href="/bookmarkList"><spring:message code="home"/></a></li>
+            <li class="active"><a href="/getAllBookmarks"><spring:message code="manage.bookmarks"/></a></li>
+            <li><a href="javascript:donate()"><spring:message code="donate"/></a></li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Rest APIS <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/restBookmarks">Bookmarks List</a></li>
+                    <li><a href="/restBookmarks"><spring:message code="bookmarks.list"/></a></li>
                 </ul>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
-            <li><a href="javascript:logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><spring:message code="lang"/><span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="?lang=en" class="language" rel="en-GB"><img style="width:25px;height:25px" src="https://lipis.github.io/flag-icon-css/flags/4x3/gb.svg" alt="English" /><spring:message code="lang.en"/></a></li>
+                    <li><a href="?lang=es" class="language" rel="es-ES"><img style="width:25px;height:25px" src="https://lipis.github.io/flag-icon-css/flags/4x3/es.svg" alt="Spanish" /><spring:message code="lang.es"/></a></li>
+                </ul>
             </li>
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
+            <li><a href="javascript:logout()"><span class="glyphicon glyphicon-log-in"></span> <spring:message code="logout"/></a></li>
         </ul>
     </div>
 </nav>
@@ -117,15 +123,15 @@
 <form:form method="post" modelAttribute="bookmark" action="${pageContext.request.contextPath}/addBookmark" enctype="multipart/form-data">
     <table>
         <tr>
-            <th colspan="2">Add Bookmark</th>
+            <th colspan="2"><spring:message code="bookmark.add"/></th>
         </tr>
         <tr>
             <form:hidden path="id" />
-            <td><form:label path="name">Bookmark Name:</form:label></td>
+            <td><form:label path="name"><spring:message code="bookmark.name"/></form:label></td>
             <td><form:input path="name" size="30" maxlength="30" required="true"></form:input></td>
         </tr>
         <tr>
-            <td><form:label path="address">Address:</form:label></td>
+            <td><form:label path="address"><spring:message code="bookmark.address"/></form:label></td>
             <c:choose>
                 <c:when test="${!empty bookmark.address}">
                     <td><input type="url" name="address" size="30" maxlength="30" value=${bookmark.address} required></td>
@@ -136,19 +142,19 @@
             </c:choose>
         </tr>
         <tr>
-            <td><form:label path="initials">Initials:</form:label></td>
+            <td><form:label path="initials"><spring:message code="bookmark.initials"/></form:label></td>
             <td><form:input path="initials" size="6" maxlength="6"></form:input></td>
         </tr>
         <tr>
-            <td><form:label path="showText">Show Initials:</form:label></td>
+            <td><form:label path="showText"><spring:message code="bookmark.show.initials"/></form:label></td>
             <td><form:checkbox path="showText"></form:checkbox></td>
         </tr>
         <tr>
-            <td><form:label path="color">Color:</form:label></td>
+            <td><form:label path="color"><spring:message code="bookmark.color"/></form:label></td>
             <td><input type="color" id="color" name="color" value=${bookmark.color}></td>
         </tr>
         <tr>
-            <td>Image:</td>
+            <td><spring:message code="bookmark.image"/></td>
             <td><input type="file" name="image" size="50"/></td>
         </tr>
         <tr>
@@ -156,24 +162,24 @@
         </tr>
         <tr>
             <c:if test="${!empty id}">
-                <td><a href="<c:url value='/getAllBookmarks'/>" >Cancel</a></td>
+                <td><a href="<c:url value='/getAllBookmarks'/>" ><spring:message code="cancel"/></a></td>
             </c:if>
         </tr>
     </table>
 </form:form>
-<h3 style="margin-left: 10px">Bookmarks List</h3>
+<h3 style="margin-left: 10px"><spring:message code="bookmark.list"/></h3>
 <c:if test="${!empty listOfBookmarks}">
     <table class="tg">
         <tr>
             <th width="80">Id</th>
-            <th width="120">Bookmark Name</th>
-            <th width="120">Address</th>
-            <th width="120">Initials</th>
-            <th width="120">Show Initials</th>
-            <th width="120">Color</th>
-            <th width="120">Image Name</th>
-            <th width="60">Edit</th>
-            <th width="60">Delete</th>
+            <th width="120"><spring:message code="bookmark.name_"/></th>
+            <th width="120"><spring:message code="bookmark.address_"/></th>
+            <th width="120"><spring:message code="bookmark.initials_"/></th>
+            <th width="120"><spring:message code="bookmark.show.initials_"/></th>
+            <th width="120"><spring:message code="bookmark.color_"/></th>
+            <th width="120"><spring:message code="bookmark.image.name_"/></th>
+            <th width="60"><spring:message code="edit"/></th>
+            <th width="60"><spring:message code="delete"/></th>
             <th width="120"></th>
         </tr>
         <c:forEach items="${listOfBookmarks}" var="bookmark">
@@ -185,8 +191,8 @@
                 <td>${bookmark.showText}</td>
                 <td>${bookmark.color}</td>
                 <td>${bookmark.imageName}</td>
-                <td><a href="<c:url value='/updateBookmark/${bookmark.id}' />" >Edit</a></td>
-                <td><a href="<c:url value='/deleteBookmark/${bookmark.id}' />" >Delete</a></td>
+                <td><a href="<c:url value='/updateBookmark/${bookmark.id}' />" ><spring:message code="edit"/></a></td>
+                <td><a href="<c:url value='/deleteBookmark/${bookmark.id}' />" ><spring:message code="delete"/></a></td>
                 <td><c:choose>
                     <c:when test="${!empty bookmark.imageName}">
                         <a href="${bookmark.address}" target="_blank"><img src="/images/${bookmark.imageName}" class="rectangle" /></a>

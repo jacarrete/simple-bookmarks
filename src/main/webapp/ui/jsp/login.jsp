@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <html>
 <head>
 	<title>Simple BookMarks</title>
@@ -16,27 +17,34 @@
 			<a class="navbar-brand" href="#">Simple BookMarks</a>
 		</div>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><spring:message code="lang"/><span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a href="?lang=en" class="language" rel="en-GB"><img style="width:25px;height:25px" src="https://lipis.github.io/flag-icon-css/flags/4x3/gb.svg" alt="English" /><spring:message code="lang.en"/></a></li>
+					<li><a href="?lang=es" class="language" rel="es-ES"><img style="width:25px;height:25px" src="https://lipis.github.io/flag-icon-css/flags/4x3/es.svg" alt="Spanish" /><spring:message code="lang.es"/></a></li>
+				</ul>
+			</li>
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span> <spring:message code="sign.up"/></a></li>
 		</ul>
 	</div>
 </nav>
 
 	<div class="container" style="margin: 50px;border: 1px solid green;">
-		<h3>Login Page</h3>
+		<h3><spring:message code="login.page"/></h3>
 		<c:if test="${param.error ne null}">
-			<div style="color: red">Invalid credentials.</div>
+			<div style="color: red"><spring:message code="invalid.credentials"/></div>
 		</c:if>
 		<form action="/login" method="post">
 			<div class="form-group">
-				<label for="username">UserName:</label> <input type="text"
+				<label for="username"><spring:message code="username"/></label> <input type="text"
 					class="form-control" id="username" name="username">
 			</div>
 			<div class="form-group">
-				<label for="pwd">Password:</label> <input type="password"
+				<label for="pwd"><spring:message code="password"/></label> <input type="password"
 					class="form-control" id="pwd" name="password">
 			</div>
 
-			<button type="submit" class="btn btn-success">Submit</button>
+			<button type="submit" class="btn btn-success"><spring:message code="submit"/></button>
 
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
