@@ -49,15 +49,15 @@
             <th colspan="2">Request new user:</th>
         </tr>
         <tr>
-            <td><form:label path="username">Username:</form:label></td>
+            <td><form:label path="username"><spring:message code="username"/></form:label></td>
             <td><form:input path="username" size="20" maxlength="20"></form:input><form:errors path="username" cssClass="error" /></td>
         </tr>
         <tr>
-            <td><form:label path="password">Password:</form:label></td>
+            <td><form:label path="password"><spring:message code="password"/></form:label></td>
             <td><form:password path="password" size="20" maxlength="20"></form:password><form:errors path="password" cssClass="error" /></td>
         </tr>
         <tr>
-            <td><form:label path="email">Email:</form:label></td>
+            <td><form:label path="email"><spring:message code="email"/></form:label></td>
             <td><form:input path="email" size="30" maxlength="30"></form:input><form:errors path="email" cssClass="error" /></td>
         </tr>
         <tr>
