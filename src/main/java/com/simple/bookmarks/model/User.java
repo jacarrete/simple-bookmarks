@@ -1,12 +1,15 @@
 package com.simple.bookmarks.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public class User {
 
     @Id
     private String id;
+    @Indexed(unique = true)
     private String username;
+    @Indexed(unique = true)
     private String email;
     private String password;
     private boolean enable;

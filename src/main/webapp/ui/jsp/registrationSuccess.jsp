@@ -16,14 +16,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="bookmarks.css" rel="stylesheet">
-    <style>
-        .error
-        {
-            color: #ff0000;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -43,28 +35,6 @@
         </ul>
     </div>
 </nav>
-<form:form method="post" modelAttribute="user" action="${pageContext.request.contextPath}/addUser">
-    <table>
-        <tr>
-            <th colspan="2">Request new user:</th>
-        </tr>
-        <tr>
-            <td><form:label path="username">Username:</form:label></td>
-            <td><form:input path="username" size="20" maxlength="20"></form:input><form:errors path="username" cssClass="error" /></td>
-        </tr>
-        <tr>
-            <td><form:label path="password">Password:</form:label></td>
-            <td><form:password path="password" size="20" maxlength="20"></form:password><form:errors path="password" cssClass="error" /></td>
-        </tr>
-        <tr>
-            <td><form:label path="email">Email:</form:label></td>
-            <td><form:input path="email" size="30" maxlength="30"></form:input><form:errors path="email" cssClass="error" /></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit"
-                                   class="blue-button" /></td>
-        </tr>
-    </table>
-</form:form>
+<h2 style="margin-top: 100px; text-align: center;"><spring:message code="success.registration"/></h2>
 </body>
 </html>

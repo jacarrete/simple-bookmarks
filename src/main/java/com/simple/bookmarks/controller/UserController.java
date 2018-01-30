@@ -11,6 +11,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,11 +50,41 @@ public class UserController {
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST, headers = "Accept=application/json")
-    public String addUser(@ModelAttribute("user") User user) {
+    public String addUser(@ModelAttribute("user") User user, BindingResult result) {
+        boolean error = false;
         user.setEnable(false);
+        if (StringUtils.isEmpty(user.getUsername())) {
+            result.rejectValue("username", "error.empty.username");
+            error = true;
+        } else if(userRepository.findUserByUsername(user.getUsername()) != null) {
+            result.rejectValue("username", "error.username");
+            error = true;
+        }
+        if (StringUtils.isEmpty(user.getPassword())) {
+            result.rejectValue("password", "error.empty.password");
+            error = true;
+        }
+        if (StringUtils.isEmpty(user.getEmail())) {
+            result.rejectValue("email", "error.empty.email");
+            error = true;
+        } else if(userRepository.findUserByEmail(user.getEmail()) != null) {
+            result.rejectValue("email", "error.email");
+            error = true;
+        } else if (!isValidEmailAddress(user.getEmail())) {
+            result.rejectValue("email", "error.format.email");
+            error = true;
+        }
+        if(error) {
+            return "registration";
+        }
         userRepository.save(user);
         sendSimpleMessage(user);
-        return "redirect:/registration";
+        return "registrationSuccess";
+    }
+
+    @RequestMapping(value = "/registrationSuccess", method = RequestMethod.GET, headers = "Accept=application/json")
+    public String registrationSuccess(Model model) {
+        return "registrationSuccess";
     }
 
     private void sendSimpleMessage(User user){
@@ -70,6 +102,13 @@ public class UserController {
         } catch (Exception e) {
             log.error(e.toString());
         }
+    }
+
+    private boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
     }
 
 }
