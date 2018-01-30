@@ -24,7 +24,7 @@
 					<li><a href="?lang=es" class="language" rel="es-ES"><img style="width:25px;height:25px" src="https://lipis.github.io/flag-icon-css/flags/4x3/es.svg" alt="Spanish" /><spring:message code="lang.es"/></a></li>
 				</ul>
 			</li>
-			<li><a href="#"><span class="glyphicon glyphicon-user"></span> <spring:message code="sign.up"/></a></li>
+			<li><a href="/registration"><span class="glyphicon glyphicon-user"></span> <spring:message code="sign.up"/></a></li>
 		</ul>
 	</div>
 </nav>

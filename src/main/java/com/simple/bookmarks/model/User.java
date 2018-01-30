@@ -1,25 +1,41 @@
 package com.simple.bookmarks.model;
 
+import org.springframework.data.annotation.Id;
+
 public class User {
 
-    private String name;
-    private String address;
+    @Id
+    private String id;
+    private String username;
     private String email;
+    private String password;
+    private boolean enable;
 
-    public String getName() {
-        return name;
+    public User() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public User(String id, String username, String email, String password, boolean enable) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.enable = enable;
     }
 
-    public String getAddress() {
-        return address;
+    public String getId() {
+        return id;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -30,4 +46,30 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", enable=" + enable +
+                '}';
+    }
 }

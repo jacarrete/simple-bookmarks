@@ -1,12 +1,10 @@
 package com.simple.bookmarks.controller;
 
-import com.simple.bookmarks.SimplebookmarksApplication;
 import com.simple.bookmarks.model.Bookmark;
 import com.simple.bookmarks.service.BookmarkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by jcarretero on 23/01/2018.
@@ -30,17 +27,10 @@ import java.util.Locale;
 @Controller
 public class BookmarkController {
 
-    private static final Logger log = LoggerFactory.getLogger(SimplebookmarksApplication.class);
-
-    private MessageSource messageSource;
+    private static final Logger log = LoggerFactory.getLogger(BookmarkController.class);
 
     @Autowired
     private BookmarkService bookmarkService;
-
-    @Autowired
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 
     @RequestMapping(value = "/getAllBookmarks", method = RequestMethod.GET, headers = "Accept=application/json")
     public String getAllBookmarks(Model model) {
@@ -56,8 +46,6 @@ public class BookmarkController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         log.info("Username: {}", username);
         model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
-        String message = messageSource.getMessage("bookmark.list", null, Locale.UK);
-        log.info("Message: {}", message);
         model.addAttribute("username", username);
         return "bookmarkList";
     }

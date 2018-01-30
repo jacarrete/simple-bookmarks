@@ -6,6 +6,7 @@ spring.mvc.view.suffix: .jsp
 ####### GENERAL ##############
 server.port: 8081
 management.port: 9001
+web.mail: simplebookmarks10@gmail.com
 
 ####### LDAP ##############
 ldap.enabled: true
@@ -29,3 +30,20 @@ hibernate.hbm2ddl.auto: update
 entitymanager.packagesToScan: com.simple.bookmarks
 
 spring.jpa.properties.hibernate.enable_lazy_load_no_trans: true
+
+# Mail
+spring:
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: simplebookmarks10@gmail.com
+    password: Example12
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
