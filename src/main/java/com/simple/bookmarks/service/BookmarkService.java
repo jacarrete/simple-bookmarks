@@ -28,6 +28,11 @@ public class BookmarkService {
     }
 
     @Transactional
+    public Bookmark getBookmarkByName(String name) {
+        return bookmarkDao.getBookmarkByName(name);
+    }
+
+    @Transactional
     public void addBookmark(Bookmark bookmark) {
         bookmarkDao.addBookmark(bookmark);
     }

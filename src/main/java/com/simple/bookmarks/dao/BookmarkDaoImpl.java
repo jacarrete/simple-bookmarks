@@ -1,6 +1,7 @@
 package com.simple.bookmarks.dao;
 
 import com.simple.bookmarks.model.Bookmark;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,18 @@ public class BookmarkDaoImpl implements BookmarkDao{
         Session session = this.sessionFactory.getCurrentSession();
         Bookmark bookmark = (Bookmark) session.get(Bookmark.class, id);
         return bookmark;
+    }
+
+    public Bookmark getBookmarkByName(String name) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Bookmark where name = :name ");
+        query.setParameter("name", name);
+        List<?> list = query.list();
+        if (list.size() > 0) {
+            return (Bookmark) list.get(0);
+        } else {
+            return null;
+        }
     }
 
     public Bookmark addBookmark(Bookmark bookmark) {

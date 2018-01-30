@@ -15,10 +15,54 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="bookmarks.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <style>
+        .rectangle{
+            width: 90px;
+            height: 90px;
+            border: 2px solid purple;
+            display: block;
+            float: left;
+            margin-left: 20px;
+            margin-right: 20px;
+            text-align: center;
+            background-color: white;
+            margin-bottom: 20px;
+        }
+        .blue-button{
+            background: #25A6E1;
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#25A6E1',endColorstr='#188BC0',GradientType=0);
+            padding:3px 5px;
+            color:#fff;
+            font-family:'Helvetica Neue',sans-serif;
+            font-size:12px;
+            border-radius:2px;
+            -moz-border-radius:2px;
+            -webkit-border-radius:4px;
+            border:1px solid #1A87B9
+        }
+        table {
+            margin-left: 10px;
+            font-family: "Helvetica Neue", Helvetica, sans-serif;
+            width: 60%;
+        }
+        th {
+            background: SteelBlue;
+            color: white;
+        }
+        td,th{
+            border: 1px solid gray;
+            width: 25%;
+            text-align: left;
+            padding: 5px 10px;
+        }
+        .error
+        {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
     <script language="JavaScript" type="text/javascript">
         function logout ( ) {
             document.logoutForm.submit() ;
@@ -77,16 +121,16 @@
         <tr>
             <form:hidden path="id" />
             <td><form:label path="name"><spring:message code="bookmark.name"/></form:label></td>
-            <td><form:input path="name" size="30" maxlength="30" required="true"></form:input></td>
+            <td><form:input path="name" size="30" maxlength="30"></form:input><form:errors path="name" cssClass="error" /></td>
         </tr>
         <tr>
             <td><form:label path="address"><spring:message code="bookmark.address"/></form:label></td>
             <c:choose>
                 <c:when test="${!empty bookmark.address}">
-                    <td><input type="url" name="address" size="30" maxlength="30" value=${bookmark.address} required></td>
+                    <td><input type="url" name="address" size="30" maxlength="30" value=${bookmark.address}></td>
                 </c:when>
                 <c:otherwise>
-                    <td><input type="url" name="address" size="30" maxlength="30" placeholder="http://www.url.com" required></td>
+                    <td><input type="url" name="address" size="30" maxlength="30" placeholder="http://www.url.com"><form:errors path="address" cssClass="error" /></td>
                 </c:otherwise>
             </c:choose>
         </tr>
@@ -110,9 +154,7 @@
             <td colspan="2"><input type="submit" class="blue-button"/></td>
         </tr>
         <tr>
-            <c:if test="${!empty id}">
-                <td><a href="<c:url value='/getAllBookmarks'/>" ><spring:message code="cancel"/></a></td>
-            </c:if>
+            <td><a href="<c:url value='/getAllBookmarks'/>" ><spring:message code="cancel"/></a></td>
         </tr>
     </table>
 </form:form>

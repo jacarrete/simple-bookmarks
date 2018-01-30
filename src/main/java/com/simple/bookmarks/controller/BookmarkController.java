@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,8 +63,27 @@ public class BookmarkController {
     }
 
     @RequestMapping(value = "/addBookmark", method = RequestMethod.POST, headers = "Accept=application/json")
-    public String addBookmark(@ModelAttribute("bookmark") Bookmark bookmark, HttpServletRequest servletRequest) {
+    public String addBookmark(@ModelAttribute("bookmark") Bookmark bookmark, BindingResult result, Model model, HttpServletRequest servletRequest) {
         MultipartFile file = ((StandardMultipartHttpServletRequest) servletRequest).getFile("image");
+        boolean error = false;
+        Bookmark bookmarkDB = bookmarkService.getBookmarkByName(bookmark.getName());
+        if (StringUtils.isEmpty(bookmark.getName())) {
+            result.rejectValue("name", "error.empty.name");
+            error = true;
+        } else if (bookmarkDB != null && bookmarkDB.getId() != bookmark.getId()) {
+            result.rejectValue("name", "error.name");
+            error = true;
+        }
+        if (StringUtils.isEmpty(bookmark.getAddress())) {
+            result.rejectValue("address", "error.empty.address");
+            error = true;
+        }
+        if(error) {
+            model.addAttribute("bookmark", bookmark);
+            model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
+            model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+            return "bookmarkDetails";
+        }
         if (file != null) {
             bookmark.setImageName(file.getOriginalFilename());
         }
@@ -77,7 +98,7 @@ public class BookmarkController {
     }
 
     @RequestMapping(value = "/updateBookmark/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    public String updateBookmark(@PathVariable("id") int id,Model model) {
+    public String updateBookmark(@PathVariable("id") int id, Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         model.addAttribute("bookmark", bookmarkService.getBookmark(id));
         model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
