@@ -18,7 +18,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="bookmarks.css" rel="stylesheet">
-
+    <style>
+        .error
+        {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
     <script language="JavaScript" type="text/javascript">
         function logout ( ) {
             document.logoutForm.submit() ;
@@ -38,7 +44,7 @@
             <a class="navbar-brand" href="/bookmarkList">Simple BookMarks</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/bookmarkList"><spring:message code="home"/></a></li>
+            <li><a href="/bookmarkList"><spring:message code="home"/></a></li>
             <li><a href="/getAllBookmarks"><spring:message code="manage.bookmarks"/></a></li>
             <li><a href="javascript:donate()"><spring:message code="donate"/></a></li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Rest APIS <span class="caret"></span></a>
@@ -48,7 +54,7 @@
                 </ul>
             </li>
             <c:if test="${loggedUser == 'javier'}">
-                <li><a href="/confirmUserForm"><spring:message code="user.confirmation"/></a></li>
+                <li class="active"><a href="/confirmUserForm"><spring:message code="user.confirmation"/></a></li>
             </c:if>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -72,25 +78,25 @@
 
 <donate:donate/>
 
-<h3 style="margin-left: 10px"><spring:message code="bookmarks"/></h3>
-<c:if test="${!empty listOfBookmarks}">
-    <c:forEach items="${listOfBookmarks}" var="bookmark">
-        <c:choose>
-            <c:when test="${!empty bookmark.imageName}">
-                <a href="${bookmark.address}" target="_blank"><img src="/images/${bookmark.imageName}" class="rectangle" /></a>
-            </c:when>
-            <c:when test="${!empty bookmark.color && bookmark.showText}">
-                <a href="${bookmark.address}" target="_blank" class="rectangle" style="background-color:${bookmark.color};" >${bookmark.initials}</a>
-            </c:when>
-            <c:when test="${!empty bookmark.color && !bookmark.showText}">
-                <a href="${bookmark.address}" target="_blank" class="rectangle" style="background-color:${bookmark.color};" ></a>
-            </c:when>
-            <c:otherwise>
-                <a href="${bookmark.address}" target="_blank" class="rectangle"></a>
-            </c:otherwise>
-        </c:choose>
-    </c:forEach>
-</c:if>
-
+<c:choose>
+    <c:when test="${loggedUser == 'javier'}">
+        <h3 style="margin-left: 10px"><spring:message code="user.confirmation"/></h3>
+        <form:form method="post" modelAttribute="user" action="${pageContext.request.contextPath}/confirmUser">
+            <table>
+                <tr>
+                    <td><form:label path="username"><spring:message code="username"/></form:label></td>
+                    <td><form:input path="username" size="20" maxlength="20"></form:input><form:errors path="username" cssClass="error" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit"
+                                           class="blue-button" /></td>
+                </tr>
+            </table>
+        </form:form>
+    </c:when>
+    <c:otherwise>
+        <h2 style="margin-top: 100px; text-align: center;"><spring:message code="permissions.confirmation"/></h2>
+    </c:otherwise>
+</c:choose>
 </body>
 </html>

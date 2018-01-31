@@ -36,19 +36,19 @@ public class BookmarkController {
 
     @RequestMapping(value = "/getAllBookmarks", method = RequestMethod.GET, headers = "Accept=application/json")
     public String getAllBookmarks(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         model.addAttribute("bookmark", new Bookmark());
         model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
-        model.addAttribute("username", username);
+        model.addAttribute("loggedUser", loggedUser);
         return "bookmarkDetails";
     }
 
     @RequestMapping(value = "/bookmarkList", method = RequestMethod.GET, headers = "Accept=application/json")
     public String bookmarkList(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
-        log.info("Username: {}", username);
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        log.info("LoggedUser: {}", loggedUser);
         model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
-        model.addAttribute("username", username);
+        model.addAttribute("loggedUser", loggedUser);
         return "bookmarkList";
     }
 
@@ -99,10 +99,10 @@ public class BookmarkController {
 
     @RequestMapping(value = "/updateBookmark/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     public String updateBookmark(@PathVariable("id") int id, Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         model.addAttribute("bookmark", bookmarkService.getBookmark(id));
         model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
-        model.addAttribute("username", username);
+        model.addAttribute("loggedUser", loggedUser);
         return "bookmarkDetails";
     }
 

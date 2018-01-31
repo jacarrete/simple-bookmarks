@@ -16,8 +16,34 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="bookmarks.css" rel="stylesheet">
     <style>
+        .blue-button{
+            background: #25A6E1;
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#25A6E1',endColorstr='#188BC0',GradientType=0);
+            padding:3px 5px;
+            color:#fff;
+            font-family:'Helvetica Neue',sans-serif;
+            font-size:12px;
+            border-radius:2px;
+            -moz-border-radius:2px;
+            -webkit-border-radius:4px;
+            border:1px solid #1A87B9
+        }
+        table {
+            margin-left: 10px;
+            font-family: "Helvetica Neue", Helvetica, sans-serif;
+            width: 60%;
+        }
+        th {
+            background: SteelBlue;
+            color: white;
+        }
+        td,th{
+            border: 1px solid gray;
+            width: 25%;
+            text-align: left;
+            padding: 5px 10px;
+        }
         .error
         {
             color: #ff0000;
@@ -46,7 +72,7 @@
 <form:form method="post" modelAttribute="user" action="${pageContext.request.contextPath}/addUser">
     <table>
         <tr>
-            <th colspan="2">Request new user:</th>
+            <th colspan="2"><spring:message code="request.new.user"/></th>
         </tr>
         <tr>
             <td><form:label path="username"><spring:message code="username"/></form:label></td>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -87,6 +88,43 @@ public class UserController {
         return "registrationSuccess";
     }
 
+    @RequestMapping(value = "/confirmUserForm", method = RequestMethod.GET, headers = "Accept=application/json")
+    public String confirmUserForm(Model model) {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        model.addAttribute("loggedUser", loggedUser);
+        model.addAttribute("user", new User());
+        return "confirmUserForm";
+    }
+
+    @RequestMapping(value = "/confirmUser", method = RequestMethod.POST, headers = "Accept=application/json")
+    public String confirmUser(@ModelAttribute("user") User user, BindingResult result, Model model) {
+        boolean error = false;
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        model.addAttribute("loggedUser", loggedUser);
+        User userDB = userRepository.findUserByUsername(user.getUsername());
+        if (StringUtils.isEmpty(user.getUsername())) {
+            result.rejectValue("username", "error.empty.username");
+            error = true;
+        } else if(userDB == null) {
+            result.rejectValue("username", "error.not.found.username");
+            error = true;
+        }
+        if(error) {
+            return "confirmUserForm";
+        }
+        userDB.setEnable(true);
+        userRepository.save(userDB);
+        sendSimpleMessageConfirmation(userDB);
+        return "confirmUserSuccess";
+    }
+
+    @RequestMapping(value = "/confirmUserSuccess", method = RequestMethod.GET, headers = "Accept=application/json")
+    public String confirmUserSuccess(Model model) {
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        model.addAttribute("loggedUser", loggedUser);
+        return "confirmUserSuccess";
+    }
+
     private void sendSimpleMessage(User user){
         log.info("Spring Mail - Sending Email for approval");
         SimpleMailMessage message = new SimpleMailMessage();
@@ -96,6 +134,20 @@ public class UserController {
                 "username: " + user.getUsername() + System.lineSeparator() +
                 "password: " + user.getPassword());
         message.setTo(webMail);
+        message.setFrom(webMail);
+        try {
+            emailSender.send(message);
+        } catch (Exception e) {
+            log.error(e.toString());
+        }
+    }
+
+    private void sendSimpleMessageConfirmation(User user){
+        log.info("Spring Mail - Sending Email to user for confirmation");
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setSubject(messageSource.getMessage("confirmation.account", null, Locale.UK));
+        message.setText(messageSource.getMessage("new.user.added", null, Locale.UK) + user.getUsername());
+        message.setTo(user.getEmail());
         message.setFrom(webMail);
         try {
             emailSender.send(message);
