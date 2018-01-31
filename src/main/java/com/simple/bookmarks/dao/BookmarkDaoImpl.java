@@ -46,6 +46,14 @@ public class BookmarkDaoImpl implements BookmarkDao{
         }
     }
 
+    public List<Bookmark> getBookmarksByUsername(String username) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Bookmark where username = :username ");
+        query.setParameter("username", username);
+        List<Bookmark> list = query.list();
+        return list;
+    }
+
     public Bookmark addBookmark(Bookmark bookmark) {
         Session session = this.sessionFactory.getCurrentSession();
         session.save(bookmark);

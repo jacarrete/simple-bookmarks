@@ -38,7 +38,7 @@ public class BookmarkController {
     public String getAllBookmarks(Model model) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         model.addAttribute("bookmark", new Bookmark());
-        model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
+        model.addAttribute("listOfBookmarks", bookmarkService.getBookmarkByUsername(loggedUser));
         model.addAttribute("loggedUser", loggedUser);
         return "bookmarkDetails";
     }
@@ -47,7 +47,7 @@ public class BookmarkController {
     public String bookmarkList(Model model) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         log.info("LoggedUser: {}", loggedUser);
-        model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
+        model.addAttribute("listOfBookmarks", bookmarkService.getBookmarkByUsername(loggedUser));
         model.addAttribute("loggedUser", loggedUser);
         return "bookmarkList";
     }
@@ -65,6 +65,7 @@ public class BookmarkController {
     @RequestMapping(value = "/addBookmark", method = RequestMethod.POST, headers = "Accept=application/json")
     public String addBookmark(@ModelAttribute("bookmark") Bookmark bookmark, BindingResult result, Model model, HttpServletRequest servletRequest) {
         MultipartFile file = ((StandardMultipartHttpServletRequest) servletRequest).getFile("image");
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         boolean error = false;
         Bookmark bookmarkDB = bookmarkService.getBookmarkByName(bookmark.getName());
         if (StringUtils.isEmpty(bookmark.getName())) {
@@ -78,16 +79,21 @@ public class BookmarkController {
             result.rejectValue("address", "error.empty.address");
             error = true;
         }
+        if (bookmark.getUsername() != null && !bookmark.getUsername().equals(loggedUser)) {
+            result.rejectValue("name", "error.credentials.username");
+            error = true;
+        }
         if(error) {
             model.addAttribute("bookmark", bookmark);
-            model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
-            model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+            model.addAttribute("listOfBookmarks", bookmarkService.getBookmarkByUsername(loggedUser));
+            model.addAttribute("loggedUser", loggedUser);
             return "bookmarkDetails";
         }
         if (file != null) {
             bookmark.setImageName(file.getOriginalFilename());
         }
         if(bookmark.getId()==0) {
+            bookmark.setUsername(loggedUser);
             bookmarkService.addBookmark(bookmark);
         }
         else {
@@ -101,7 +107,7 @@ public class BookmarkController {
     public String updateBookmark(@PathVariable("id") int id, Model model) {
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         model.addAttribute("bookmark", bookmarkService.getBookmark(id));
-        model.addAttribute("listOfBookmarks", bookmarkService.getAllBookmarks());
+        model.addAttribute("listOfBookmarks", bookmarkService.getBookmarkByUsername(loggedUser));
         model.addAttribute("loggedUser", loggedUser);
         return "bookmarkDetails";
     }
@@ -115,7 +121,8 @@ public class BookmarkController {
     @RequestMapping(value = "/restBookmarks", method = RequestMethod.GET, produces={"application/json", "application/xml"})
     @ResponseBody
     public List<Bookmark> restBookmarks() {
-        return bookmarkService.getAllBookmarks();
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
+        return bookmarkService.getBookmarkByUsername(loggedUser);
     }
 
     private void transferMultipartFile(HttpServletRequest servletRequest) {

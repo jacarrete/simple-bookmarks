@@ -33,6 +33,11 @@ public class BookmarkService {
     }
 
     @Transactional
+    public List<Bookmark> getBookmarkByUsername(String username) {
+        return bookmarkDao.getBookmarksByUsername(username);
+    }
+
+    @Transactional
     public void addBookmark(Bookmark bookmark) {
         bookmarkDao.addBookmark(bookmark);
     }

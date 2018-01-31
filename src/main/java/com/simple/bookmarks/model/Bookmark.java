@@ -38,6 +38,9 @@ public class Bookmark {
     @Column(name="imageName")
     String imageName;
 
+    @Column(name="username")
+    String username;
+
     @Column(name="showText")
     Boolean showText;
 
@@ -45,13 +48,14 @@ public class Bookmark {
         super();
     }
 
-    public Bookmark(String name, String initials, String address, String color, String imageName, Boolean showText) {
+    public Bookmark(String name, String initials, String address, String color, String imageName, Boolean showText, String username) {
         this.name = name;
         this.initials = initials;
         this.address = address;
         this.color = color;
         this.imageName = imageName;
         this.showText = showText;
+        this.username = username;
     }
 
     public int getId() {
@@ -108,5 +112,13 @@ public class Bookmark {
 
     public void setShowText(Boolean showText) {
         this.showText = showText;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

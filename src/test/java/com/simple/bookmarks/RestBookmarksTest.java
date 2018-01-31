@@ -68,8 +68,8 @@ public class RestBookmarksTest {
     }
 
     private List<Bookmark> getBookmarkList(){
-        Bookmark bookmark = new Bookmark("example", "EXAM", "http://www.google.com", "red", null, true);
-        Bookmark bookmark1 = new Bookmark("example1", "EXAM1", "http://www.google.com", "red", null, true);
+        Bookmark bookmark = new Bookmark("example", "EXAM", "http://www.google.com", "red", null, true, "username");
+        Bookmark bookmark1 = new Bookmark("example1", "EXAM1", "http://www.google.com", "red", null, true, "username");
         return new ArrayList<>(Arrays.asList(bookmark, bookmark1));
     }
 

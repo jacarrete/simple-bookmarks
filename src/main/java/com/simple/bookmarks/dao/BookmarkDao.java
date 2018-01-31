@@ -14,6 +14,8 @@ public interface BookmarkDao {
 
     Bookmark getBookmarkByName(String name);
 
+    List<Bookmark> getBookmarksByUsername(String username);
+
     Bookmark addBookmark(Bookmark bookmark);
 
     void updateBookmark(Bookmark bookmark);

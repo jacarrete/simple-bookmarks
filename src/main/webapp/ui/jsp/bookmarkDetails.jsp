@@ -123,6 +123,7 @@
         </tr>
         <tr>
             <form:hidden path="id" />
+            <form:hidden path="username" />
             <td><form:label path="name"><spring:message code="bookmark.name"/></form:label></td>
             <td><form:input path="name" size="30" maxlength="30"></form:input><form:errors path="name" cssClass="error" /></td>
         </tr>
