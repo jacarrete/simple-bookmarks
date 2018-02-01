@@ -34,10 +34,11 @@ public class BookmarkDaoImpl implements BookmarkDao{
         return bookmark;
     }
 
-    public Bookmark getBookmarkByName(String name) {
+    public Bookmark getBookmarkByNameAndUsername(String name, String username) {
         Session session = this.sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Bookmark where name = :name ");
+        Query query = session.createQuery("from Bookmark where name = :name and username = :username ");
         query.setParameter("name", name);
+        query.setParameter("username", username);
         List<?> list = query.list();
         if (list.size() > 0) {
             return (Bookmark) list.get(0);

@@ -28,8 +28,8 @@ public class BookmarkService {
     }
 
     @Transactional
-    public Bookmark getBookmarkByName(String name) {
-        return bookmarkDao.getBookmarkByName(name);
+    public Bookmark getBookmarkByNameAndUsername(String name, String username) {
+        return bookmarkDao.getBookmarkByNameAndUsername(name, username);
     }
 
     @Transactional

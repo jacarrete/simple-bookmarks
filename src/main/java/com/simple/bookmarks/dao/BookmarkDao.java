@@ -12,7 +12,7 @@ public interface BookmarkDao {
 
     Bookmark getBookmark(int id);
 
-    Bookmark getBookmarkByName(String name);
+    Bookmark getBookmarkByNameAndUsername(String name, String username);
 
     List<Bookmark> getBookmarksByUsername(String username);
 

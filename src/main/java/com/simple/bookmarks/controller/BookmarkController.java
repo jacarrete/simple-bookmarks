@@ -67,7 +67,7 @@ public class BookmarkController {
         MultipartFile file = ((StandardMultipartHttpServletRequest) servletRequest).getFile("image");
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName(); //get logged in username
         boolean error = false;
-        Bookmark bookmarkDB = bookmarkService.getBookmarkByName(bookmark.getName());
+        Bookmark bookmarkDB = bookmarkService.getBookmarkByNameAndUsername(bookmark.getName(), loggedUser);
         if (StringUtils.isEmpty(bookmark.getName())) {
             result.rejectValue("name", "error.empty.name");
             error = true;
@@ -79,7 +79,7 @@ public class BookmarkController {
             result.rejectValue("address", "error.empty.address");
             error = true;
         }
-        if (bookmark.getUsername() != null && !bookmark.getUsername().equals(loggedUser)) {
+        if (!bookmark.getUsername().equals("") && !bookmark.getUsername().equals(loggedUser)) {
             result.rejectValue("name", "error.credentials.username");
             error = true;
         }
